@@ -1,0 +1,41 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: Sosi suka
+  title: Share-Files
+  version: "1.0"
+paths:
+  /:
+    get:
+      description: This endpoint returns a welcome message.
+      operationId: get-welcome-message
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Welcome to my app!
+          schema:
+            type: string
+      summary: Returns a welcome message
+  /upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a file to S3
+      operationId: upload-file
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: File uploaded successfully
+          schema:
+            type: string
+      summary: Uploads a file
+swagger: "2.0"
