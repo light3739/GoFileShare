@@ -1,6 +1,5 @@
 package handlers
 
-// upload_handler.go
 import (
 	"mime/multipart"
 	"net/http"
@@ -8,15 +7,6 @@ import (
 	"share-files/pkg/storage"
 )
 
-// HandleUpload handles POST requests to upload files.
-// @Summary Uploads a file
-// @Description Uploads a file to S3
-// @ID upload-file
-// @Accept multipart/form-data
-// @Produce json
-// @Param file formData file true "File to upload"
-// @Success 200 {string} string "File uploaded successfully"
-// @Router /upload [post]
 func HandleUpload(w http.ResponseWriter, r *http.Request) {
 	sess, err := storage.NewAWSSession()
 	if err != nil {
@@ -45,6 +35,13 @@ func HandleUpload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger.LogInfo("Successfully uploaded to S3 bucket")
+	tag := storage.GenerateTag()
+
+	if err := storage.AddTag(sess, header.Filename, tag); err != nil {
+		logger.LogError(err, "Failed to add tag to S3 object")
+		http.Error(w, "Failed to add tag to S3 object", http.StatusInternalServerError)
+		return
+	}
+	logger.LogInfo("Successfully uploaded to S3 bucket. Tag: " + tag)
 	w.WriteHeader(http.StatusOK)
 }

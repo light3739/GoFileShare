@@ -4,7 +4,8 @@ go 1.21
 
 require (
 	github.com/aws/aws-sdk-go v1.49.8
-	github.com/go-chi/chi v4.1.2+incompatible
+	github.com/go-chi/chi v1.5.5
+	github.com/google/uuid v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.31.0
 	github.com/swaggo/http-swagger v1.3.4
