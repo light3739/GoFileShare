@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"share-files/api"
 	"share-files/configs"
+	"share-files/db"
 	"share-files/logger"
 )
 
@@ -14,6 +15,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error loading configurations: %s", err)
 	}
+
+	// Connect to the database
+	dbConn, err := configs.ConnectToDatabase()
+	if err != nil {
+		log.Fatalf("Error connecting to the database: %s", err)
+	}
+	defer dbConn.Close()
+
+	// Run migrations
+	db.Migrate(dbConn)
+
 	// @title Share-Files
 	// @version 1.0
 	// @description Sosi suka

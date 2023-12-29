@@ -10,6 +10,11 @@ var (
 	AwsSecretAccessKey string
 	AwsRegion          string
 	BucketName         string
+	DbHost             string
+	DbPort             string
+	DbUser             string
+	DbPassword         string
+	DbName             string
 )
 
 func Init() error {
@@ -17,7 +22,11 @@ func Init() error {
 	if err != nil {
 		return err
 	}
-
+	DbHost = os.Getenv("DB_HOST")
+	DbPort = os.Getenv("DB_PORT")
+	DbUser = os.Getenv("DB_USER")
+	DbPassword = os.Getenv("DB_PASSWORD")
+	DbName = os.Getenv("DB_NAME")
 	AwsAccessKeyId = os.Getenv("AWS_ACCESS_KEY_ID")
 	AwsSecretAccessKey = os.Getenv("AWS_SECRET_ACCESS_KEY")
 	AwsRegion = os.Getenv("AWS_REGION")
